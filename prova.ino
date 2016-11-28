@@ -1,4 +1,4 @@
-#define samples 15
+#define samples 200
 
 uint8_t state, old_state, initial;
 uint8_t changed[samples];
