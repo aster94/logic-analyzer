@@ -14,5 +14,8 @@ if you don't want to download the exe files you can always download processing c
 
 28/11/16 - completely new interface and added save function;
 
-next:
+
+
+to do list:
+
 possibility to disable the writing of microseconds
