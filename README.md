@@ -9,7 +9,8 @@ if you wish to modify something feel free to do it
 if you don't want to download the exe files you can always download processing copy the .pde file and run it
 
 24/11/16 - published;
-
 26/11/16 - adding color;
-
 28/11/16 - completely new interface and added save function;
+
+next:
+possibility to disable the writing of microseconds
