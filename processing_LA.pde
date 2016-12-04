@@ -69,7 +69,7 @@ void setup () {
   background(black);
   smooth(4);
 
-  textBoxH = height -40;
+  graphBoxH = height -40;
   buttonY = height -30;
 }
 
@@ -82,6 +82,8 @@ void cleanScreen() {
   stroke(green);                                         //border
   Arrays.fill(xPos, 0);                              //reset start point of the graph
 
+getData();
+/*
   if (graphShift==true) {
     int b;
     int mask = 1;
@@ -92,16 +94,18 @@ void cleanScreen() {
       //println("islow: "+isLow[n]);
     }
   }
+  */
 }
 
 
 void draw () {
 
-  if (dataComplete==true || graphShift==true) {
+  if (dataComplete==true e) {
     cleanScreen();
     pushMatrix();            //move the coordinate reference
     translate(xEdge, 0);
     for (int i=0; i<samples; i++) {
+          yPos=yEdge;              // start a new cicle
       for (int n=0; n<6; n++) {
         if (state[i][n]==true) {
           ySave=yPos;                // save the value of the y
@@ -135,7 +139,7 @@ void draw () {
         yPos+=60;              // go to the next pin
         yDiff=yPos;            // reset the value of the hight/low
       }
-      yPos=yEdge;              // start a new cicle
+
     }
 
     xEnd = int (xTime[samples-1]) +100;
@@ -147,9 +151,9 @@ void draw () {
       yPos+=60;
     }
 
-    yPos=yEdge;
+   
     dataComplete=false;
-    graphShift=false;
+    
     popMatrix();
   }
   drawText();
@@ -159,7 +163,8 @@ void drawText() {
 
   stroke(white);
   fill(black);
-  rect(0, 0, xEdge, textBoxH);
+  rect(0, 0, xEdge, graphBoxH);
+  rect(0, graphBoxH, width, height);
   fill(white);   
   textSize(14);
 
@@ -193,16 +198,15 @@ void mouseClicked() {
   // draw times
   if (mouseY>yBottom-15 && mouseY <yBottom-15+buttonH &&
     mouseX>button1X && mouseX <button1X+smallButtonW) {
-    drawTime = !drawTime;
+    drawTimes = !drawTimes;
     getData();
   }
 
-  // reset
+  // new read
   if (mouseY>buttonY && mouseY <buttonY+buttonH &&
     mouseX>button2X && mouseX <button2X+smallButtonW) {
     p.write('G');
     p.clear();
-    cleanScreen();
     xShift = 0;
   }
 
@@ -210,9 +214,6 @@ void mouseClicked() {
   if (mouseY>buttonY && mouseY <buttonY+buttonH &&
     mouseX>button3X && mouseX <button3X+bigButtonW) {
     milliseconds = !milliseconds;
-    p.write('G');
-    p.clear();
-    cleanScreen();
     xShift = 0;
   }
 
@@ -236,7 +237,7 @@ void mouseWheel(MouseEvent event) {
     getData();
   } else {        //move the graph
     xShift-=wheel*50;
-    graphShift=true;
+    getData();
   }
 }
 
@@ -287,7 +288,7 @@ void serialEvent (Serial p) {
     } else {
       changed[event] = int (list[0]);
       usTime[event] = float (list[1]);
-      if (milliseconds == true) usTime[event] /= 1000.0;
+      
     }
   }
 
@@ -312,6 +313,7 @@ void getData () {
 
   for (int i = 0; i < samples; i++) {
     xTime[i] = usTime[i] / reducer;    //better to reduce the lenght of the x
+    if (milliseconds == true) usTime[event] /= 1000.0;
   }
 
   int b;
