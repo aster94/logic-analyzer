@@ -71,7 +71,7 @@ boolean isDraggable = false;
 
 
 void setup () {
-  p = new Serial(this, "com3", 9600);
+  p = new Serial(this, "COM3", 9600);     //choose you COM
   p.bufferUntil('\n');
 
   size(1000, 460);
