@@ -13,8 +13,7 @@ int grey = 150;
 // shift, reducer and millisecond view
 float reducer = 1.0;
 boolean milliseconds = false;
-boolean isMilliseconds= false;
-int xShift;
+float xShift;
 
 
 // start point in the processing window
@@ -22,7 +21,7 @@ int xEdge = 60;
 int yEdge = 30;
 int xEnd;
 float[] xPos = {0, 0, 0, 0, 0, 0};
-int yBottom = 390;
+int yBottom;
 int yDiff;
 int yPos = yEdge;
 int ySave = yEdge;
@@ -41,8 +40,8 @@ boolean dataComplete = false;
 boolean [][] state;
 boolean [] isLow = new boolean[6];
 float[] usTime;
-int[] changed;
 float[] xTime;
+int[] pinChanged;
 
 
 //buttons and others
@@ -56,8 +55,18 @@ int buttonH = 20;
 int smallButtonW = 50;
 int bigButtonW = 100;
 int graphBoxH;
+int textBoxH;
 int immage = 1;
 int corner = 10;
+
+
+// bar scroll
+int handleFill = grey;
+float handleX;
+float handleY;
+float handleW = 20;
+float handleH = 15;
+boolean isDraggable = false;
 
 
 
@@ -65,21 +74,26 @@ void setup () {
   p = new Serial(this, "com3", 9600);
   p.bufferUntil('\n');
 
-  size(1000, 450);
+  size(1000, 460);
   background(black);
   smooth(4);
 
-  graphBoxH = height -40;
-  buttonY = height -30;
+  graphBoxH = height -50;
+  textBoxH = height - 35;
+  yBottom = graphBoxH-20;
+  buttonY = textBoxH +8;
+  handleX = xEdge;
+  handleY = graphBoxH;
 }
 
 
 void cleanGraph() {
   noStroke();                                        //no borders
   fill(black);                                        
-  rect(xEdge, 0, width, graphBoxH);                       //cancel the graph
-  stroke(green);                                         //line color
+  rect(xEdge, 0, width, graphBoxH);                  //cancel the graph
+  stroke(green);                                     //green lines
   Arrays.fill(xPos, 0);                              //reset start point of the graph
+  textCovered = false;
 }
 
 
@@ -87,14 +101,14 @@ void draw () {
 
   if (dataComplete==true) {
     cleanGraph();
-    pushMatrix();            //move the coordinate reference
+    pushMatrix();                        //move the coordinate reference
     translate(xEdge, 0);
     for (int i=0; i<samples; i++) {
-      yPos = yEdge;      // start a new cicle
+      yPos = yEdge;                      //start a new cicle
       for (int n=0; n<6; n++) {
         if (state[i][n]==true) {
-          ySave = yPos;                // save y value
-          if (isLow[n]==true) {
+          ySave = yPos;                  //save y value
+          if (isLow[n]==true) {          //pin high else low
             yDiff=yPos;
             yPos+=30;
             isLow[n]=false;
@@ -103,7 +117,7 @@ void draw () {
             isLow[n]=true;
           }
 
-          // Text lines
+          // Text times
           if (drawTimes == true) {
             stroke(grey);
             fill(grey);
@@ -118,15 +132,15 @@ void draw () {
           line(xPos[n]+xShift, yPos, xTime[i]+xShift, yPos);       // straight line
           line(xTime[i]+xShift, yPos, xTime[i]+xShift, yDiff);     // vertical line
 
-          xPos[n]=xTime[i];    // save last position of the line for the pin
-          yPos = ySave;          // load the value of the y
+          xPos[n]=xTime[i];      //save last position of the line for the pin
+          yPos = ySave;          //load the initial value of the y
         }
-        yPos+=60;              // go to the next pin
-        yDiff=yPos;            // reset the value of the hight/low
+        yPos+=60;                //go to the next pin
       }
     }
 
-    xEnd = int (xTime[samples-1]) +100;
+    xEnd = int (xTime[samples-1]) +10;
+    yPos = yEdge;
     for (int n = 0; n < 6; n++) {
       if (xPos[n]!=0) {    //draw only the pin which are active
         if (isLow[n]==true) line(xPos[n]+xShift, yPos+30, xEnd+xShift, yPos+30);
@@ -141,12 +155,15 @@ void draw () {
   drawText();
 }
 
+
 void drawText() {
 
-  stroke(white);      // white borders
+  stroke(white);                              //white borders
   fill(black);
-  rect(0, 0, xEdge, graphBoxH);    // clean left side
-  rect(0, graphBoxH, width, height);  //clean bottom side
+  rect(0, 0, xEdge, graphBoxH);               //clean left side
+  rect(xEdge, graphBoxH, width, handleH);     //clean bar scroll
+  rect(0, textBoxH, width, height);           //clean bottom side
+
 
   // write name of the pins
   fill(white);   
@@ -176,6 +193,36 @@ void drawText() {
   text(milliseconds == true ? "milliseconds" : "microseconds", button3X+3, buttonY+14);
   text(reducer, button4X+3, buttonY+14);
   text("Save", button5X+3, buttonY+14);
+
+
+  //bar scroll
+  fill(handleFill);
+  rect(handleX, handleY, handleW, handleH);
+
+  if (isDraggable) {
+    handleX = mouseX-(handleW/2);
+    if (handleX<xEdge) handleX = xEdge;
+    if (handleX>width-handleW) handleX = width-handleW;    
+
+    getData();
+    xShift = -map(handleX, xEdge, width-handleW, 0, xEnd-900);
+  }
+  
+}
+
+
+void mousePressed() {
+  if (mouseX>handleX && mouseX<handleX+handleW &&
+    mouseY>handleY && mouseY<handleY+handleH) {
+    isDraggable = true;
+    handleFill = color(100, 200, 255);
+  }
+}
+
+
+void mouseReleased() {
+  isDraggable = false;
+  handleFill = grey;
 }
 
 
@@ -194,6 +241,7 @@ void mouseClicked() {
     p.write('G');
     p.clear();
     xShift = 0;
+    handleX = xEdge;
   }
 
   // micro or millis
@@ -202,34 +250,34 @@ void mouseClicked() {
 
     milliseconds = !milliseconds;
 
-    if (isMilliseconds== false && milliseconds == true) {
+    if (milliseconds == true) {
       for (int i=0; i< samples; i++)  usTime[i] /= 1000.0;
-      isMilliseconds = true;
     } 
-    if (isMilliseconds==true && milliseconds== false) {
+    if (milliseconds== false) {
       for (int i=0; i< samples; i++)  usTime[i] *= 1000.0;
-      isMilliseconds = false;
     }
-    
+
     getData();
     xShift = 0;
+    handleX = xEdge;
   }
 
   //save frame
   if (mouseY>buttonY && mouseY <buttonY+buttonH &&
     mouseX>button5X && mouseX <button5X+smallButtonW) {
-    String a = "la_capture-"+immage; //+".jpg";  //if you prefer this format
+    String a = "la_capture-"+immage; //+".jpg";  //if you prefer this format, default .tif
     save(a);
     immage++;
   }
 }
+
 
 void mouseWheel(MouseEvent event) {
   float wheel = event.getCount();
 
   if (mouseY>buttonY && mouseY <buttonY+buttonH &&
     mouseX>button4X && mouseX <button4X+smallButtonW) {
-    //over the reducer button
+    //it is over the reducer button
     reducer-= wheel/10;
     reducer = constrain(reducer, 0.1, 9.9);
     getData();
@@ -249,11 +297,12 @@ void mouseMoved() {
     cursor(HAND);
   } else if (mouseY>yBottom-15 && mouseY <yBottom-15+buttonH && mouseX>button1X && mouseX <button1X+smallButtonW) {
     cursor(HAND);
+  } else if (mouseX>handleX && mouseX<handleX+handleW && mouseY>handleY && mouseY<handleY+handleH) {
+    cursor(HAND);
   } else {
     cursor(ARROW);
   }
 }
-
 
 
 void serialEvent (Serial p) {
@@ -277,14 +326,14 @@ void serialEvent (Serial p) {
       initialState = int (list[0]);
       samples = int (list[1]);
 
-      changed = new int[samples];
+      pinChanged = new int[samples];
       usTime = new float[samples];
       xTime = new float[samples];
       state = new boolean[samples][6];
 
       first = false;
     } else {
-      changed[event] = int (list[0]);
+      pinChanged[event] = int (list[0]);
       usTime[event] = float (list[1]);
     }
   }
@@ -323,14 +372,13 @@ void getData () {
     //println("islow: "+isLow[n]);
   }
 
-
   // changes
   for (int i=0; i<samples; i++) {
     mask = 1;
     //println("i:"+i);
     //println(binary(changed[i], 6));
     for (int n=0; n<6; n++) {
-      b= changed[i] & mask;
+      b= pinChanged[i] & mask;
       state[i][n]= boolean (b);
       mask <<= 1;
       //println(state[i][n]);
