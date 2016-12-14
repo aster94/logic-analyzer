@@ -14,7 +14,7 @@ if you don't want to download the exe files you can always download processing c
 
 04/12/16 - better reducer and save options, added the possibility to diplay or not the times, corrected a bug when two or more pulse where coincident;
 
-12/04/16 - added bar scrool, now moving along the capture is far away easier;
+12/12/16 - added bar scrool, now moving along the capture is far away easier;
 
 15/12/16 - improved acquisition code;
 
