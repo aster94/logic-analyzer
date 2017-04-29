@@ -18,6 +18,7 @@ if you don't want to download the exe files you can always download processing c
 
 15/12/16 - improved acquisition code;
 
+29/04/17 - added support for STM32
 
 
 
@@ -26,5 +27,5 @@ if you don't want to download the exe files you can always download processing c
 to do list:
 add pwm mode
 
-NOTE: the .pde code is always the last version, not the .exe
-download the .pde file to have the last one
+NOTE: the .pde code is always the last version, not the .exe, 
+use the .pde file to have the last one, you will need to download processing: https://processing.org/download/
