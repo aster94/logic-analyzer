@@ -2,6 +2,20 @@ import processing.serial.*;
 import java.util.Arrays;
 Serial p;
 
+////////////////////////////////////////////////
+/*--------------------SETUP-------------------*/
+
+//uncomment the line where your arduino/STM32 is connected
+String LA_port = "/dev/ttyACM0";    //linux DFU
+//String LA_port = "/dev/ttyUSB0";  //linux Serial
+//String LA_port = "COM9";          //windows
+
+//change it to true if you are using a STM32 instead of arduino
+boolean STM32 = true;
+
+/*------------------END SETUP-----------------*/
+////////////////////////////////////////////////
+
 
 //colors:
 int white = 255;
@@ -71,7 +85,8 @@ boolean isDraggable = false;
 
 
 void setup () {
-  p = new Serial(this, "com3", 9600);
+  //p = new Serial(this, Serial.list()[0], 115200);
+  p = new Serial(this, LA_port, 115200);
   p.bufferUntil('\n');
 
   size(1000, 460);
@@ -172,13 +187,25 @@ void drawText() {
   int x=10;
   int y=50;
 
-  for (int i = 8; i<=13; i++) {
-    line(x, y-20, xEdge, y-20);
-    line(x, y+10, xEdge, y+10);
-    text ("Pin "+i, x, y);
-    y+=60;
+  if (STM32) {
+    
+    for (byte i = 12; i<=15; i++) {
+      line(x, y-20, xEdge, y-20);
+      line(x, y+10, xEdge, y+10);
+      text ("PB"+i, x, y);
+      y+=60;
+    }
+    
+  } else {
+    
+    for (byte i = 8; i<=13; i++) {
+      line(x, y-20, xEdge, y-20);
+      line(x, y+10, xEdge, y+10);
+      text ("Pin "+i, x, y);
+      y+=60;
+    }
   }
-
+  
   // draw buttons
   fill(grey);
 
@@ -207,7 +234,6 @@ void drawText() {
     getData();
     xShift = -map(handleX, xEdge, width-handleW, 0, xEnd-900);
   }
-  
 }
 
 
