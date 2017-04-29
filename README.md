@@ -1,8 +1,7 @@
 # logic-analyzer
 
-if you wish to modify something feel free to do it
-for explanation see:
-https://www.hackster.io/vincenzo-g/diy-logic-analyzer-f61ee5
+if you wish to modify something feel free to do it;
+for explanation see: https://www.hackster.io/vincenzo-g/diy-logic-analyzer-f61ee5
 
 
 24/11/16 - published;
