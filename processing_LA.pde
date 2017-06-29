@@ -6,9 +6,9 @@ Serial p;
 /*--------------------SETUP-------------------*/
 
 //uncomment the line where your arduino/STM32 is connected
-String LA_port = "/dev/ttyACM0";    //linux DFU
+//String LA_port = "/dev/ttyACM0";    //linux DFU
 //String LA_port = "/dev/ttyUSB0";  //linux Serial
-//String LA_port = "COM9";          //windows, change the number with the real port where your arduino is connected
+String LA_port = "COM9";          //windows, change the number with the real port where your arduino is connected
 
 //change it to true if you are using a STM32 instead of arduino
 boolean STM32 = false;
