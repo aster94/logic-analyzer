@@ -8,10 +8,12 @@ Serial p;
 //uncomment the line where your arduino/STM32 is connected
 //String LA_port = "/dev/ttyACM0";    //linux DFU
 //String LA_port = "/dev/ttyUSB0";  //linux Serial
-String LA_port = "COM9";          //windows, change the number with the real port where your arduino is connected
+String LA_port = "COM10";          //windows
+
+final int baudrate = 115200;
 
 //change it to true if you are using a STM32 instead of arduino
-boolean STM32 = false;
+final boolean STM32 = false;
 
 /*------------------END SETUP-----------------*/
 ////////////////////////////////////////////////
@@ -86,7 +88,7 @@ boolean isDraggable = false;
 
 void setup () {
   //p = new Serial(this, Serial.list()[0], 115200);
-  p = new Serial(this, LA_port, 115200);
+  p = new Serial(this, LA_port, baudrate);
   p.bufferUntil('\n');
 
   size(1000, 460);
@@ -154,7 +156,13 @@ void draw () {
       }
     }
 
-    xEnd = int (xTime[samples-1]) +10;
+
+    if (samples!=0) {
+      xEnd = int (xTime[samples-1]) +10;
+    } else {
+      xEnd = 0;
+    }
+
     yPos = yEdge;
     for (int n = 0; n < 6; n++) {
       if (xPos[n]!=0) {    //draw only the pin which are active
@@ -188,16 +196,15 @@ void drawText() {
   int y=50;
 
   if (STM32) {
-    
+
     for (byte i = 12; i<=15; i++) {
       line(x, y-20, xEdge, y-20);
       line(x, y+10, xEdge, y+10);
       text ("PB"+i, x, y);
       y+=60;
     }
-    
   } else {
-    
+
     for (byte i = 8; i<=13; i++) {
       line(x, y-20, xEdge, y-20);
       line(x, y+10, xEdge, y+10);
@@ -205,7 +212,7 @@ void drawText() {
       y+=60;
     }
   }
-  
+
   // draw buttons
   fill(grey);
 
@@ -265,6 +272,7 @@ void mouseClicked() {
   if (mouseY>buttonY && mouseY <buttonY+buttonH &&
     mouseX>button2X && mouseX <button2X+smallButtonW) {
     p.write('G');
+    println("new data coming");
     p.clear();
     xShift = 0;
     handleX = xEdge;
@@ -335,6 +343,7 @@ void serialEvent (Serial p) {
 
   String inString = p.readStringUntil('\n');
   inString = trim(inString);
+  println("incoming: "+inString);
 
   if (inString.equals("S") == true) {
 
@@ -375,15 +384,16 @@ void serialEvent (Serial p) {
 void getData () {
 
   //check data:
-  //println(initialState);
+  println("event: "+event);
+  println("initial: "+initialState);
+  println("samples: "+samples);
   //println("pin"+changed[0]);
   //println("time"+usTime[0]);
-  //printArray(usTime);
-  //printArray(xTime);
-  //println("event: "+event);
+  printArray(usTime);
+  printArray(xTime);
   //println("pin: "+binary(changed[0], 6));
 
-  for (int i = 0; i < samples; i++) {    
+  for (int i = 0; i < samples; i++) {  
     xTime[i] = usTime[i] / reducer;    //better to reduce the lenght of the x
   }
 
