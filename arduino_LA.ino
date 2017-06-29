@@ -5,7 +5,7 @@
  * Author : Vincenzo
  */ 
 
-#define baudrate 115200
+#define baudrate 115200 //check if it is the same in processing
 #define samples 200
 
 #define F_CPU 16000000UL
