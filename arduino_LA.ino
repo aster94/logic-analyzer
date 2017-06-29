@@ -98,7 +98,7 @@ void sendData() {
 
 
 int main(void) {
-  Serial.begin(9600);
+  Serial.begin(baudrate);
   
   init_board();
   init_timer();
