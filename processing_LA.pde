@@ -10,7 +10,7 @@ Serial p;
 //String LA_port = "/dev/ttyUSB0";  //linux Serial
 String LA_port = "COM10";          //windows
 
-final int baudrate = 115200;
+final int baudrate = 115200; //check if it is the same in arduino
 
 //change it to true if you are using a STM32 instead of arduino
 final boolean STM32 = false;
