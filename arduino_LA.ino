@@ -5,13 +5,13 @@
  * Author : Vincenzo
  */ 
 
+#define baudrate 115200
+#define samples 200
 
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-
-#define samples 200
 #define prescaler 0x02
 volatile uint16_t timer1_overflow_count;
 
