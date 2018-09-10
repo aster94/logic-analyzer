@@ -6,8 +6,8 @@ A few days ago I needed a logic sniffer since I don't have any I thought to writ
 
 ## Usage
 
-- upload to your board "UNO_LA.ino" or "MEGA_LA.ino" or "STM32_LA.ino" 
-- choose your board and serial port on "processing_LA.pde"
+- upload to your board "UNO.ino" or "MEGA.ino" or "STM32.ino" 
+- choose your board and serial port on "processing.pde"
 - run it and have a good debug :D
 
 If you wish you could put a led on the arduino pin A0 to see when the MCU is recording, the number of samples is set to 200 but you could increment it until the memory is full.
