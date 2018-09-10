@@ -23,7 +23,7 @@ Enjoy!
 # Change Log
 
 ##### 30/08/18
-- @sancho11 joined in the development of this useful tool
+- MEGA version added by @sancho11, which now is a collaborator
 
 ##### 29/04/17
 - added support for STM32
