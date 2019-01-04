@@ -106,7 +106,7 @@ void setup () {
 
 void cleanGraph() {
   noStroke();                                        //no borders
-  fill(black);                                        
+  fill(black);
   rect(xEdge, 0, width, graphBoxH);                  //cancel the graph
   stroke(green);                                     //green lines
   Arrays.fill(xPos, 0);                              //reset start point of the graph
@@ -189,7 +189,7 @@ void drawText() {
 
 
   // write name of the pins
-  fill(white);   
+  fill(white);
   textSize(14);
 
   int x=10;
@@ -236,7 +236,7 @@ void drawText() {
   if (isDraggable) {
     handleX = mouseX-(handleW/2);
     if (handleX<xEdge) handleX = xEdge;
-    if (handleX>width-handleW) handleX = width-handleW;    
+    if (handleX>width-handleW) handleX = width-handleW;
 
     getData();
     xShift = -map(handleX, xEdge, width-handleW, 0, xEnd-900);
@@ -286,7 +286,7 @@ void mouseClicked() {
 
     if (milliseconds == true) {
       for (int i=0; i< samples; i++)  usTime[i] /= 1000.0;
-    } 
+    }
     if (milliseconds== false) {
       for (int i=0; i< samples; i++)  usTime[i] *= 1000.0;
     }
@@ -312,8 +312,10 @@ void mouseWheel(MouseEvent event) {
   if (mouseY>buttonY && mouseY <buttonY+buttonH &&
     mouseX>button4X && mouseX <button4X+smallButtonW) {
     //it is over the reducer button
+    xShift *= reducer;
     reducer-= wheel/10;
     reducer = constrain(reducer, 0.1, 9.9);
+    xShift /= reducer; // preserve scroll position
     getData();
   } else {        //move the graph
     xShift-=wheel*50;
@@ -393,7 +395,7 @@ void getData () {
   printArray(xTime);
   //println("pin: "+binary(changed[0], 6));
 
-  for (int i = 0; i < samples; i++) {  
+  for (int i = 0; i < samples; i++) {
     xTime[i] = usTime[i] / reducer;    //better to reduce the lenght of the x
   }
 
@@ -428,41 +430,41 @@ float[] spacing = {5, 8};  //used for the dashline function, pixels
 
 void dashline(float x0, float y0, float x1, float y1, float[] spacing) {
 
-  float distance = dist(x0, y0, x1, y1); 
-  float [ ] xSpacing = new float[spacing.length]; 
-  float [ ] ySpacing = new float[spacing.length]; 
-  float drawn = 0.0;  // amount of distance drawn 
+  float distance = dist(x0, y0, x1, y1);
+  float [ ] xSpacing = new float[spacing.length];
+  float [ ] ySpacing = new float[spacing.length];
+  float drawn = 0.0;  // amount of distance drawn
 
-  if (distance > 0) 
-  { 
-    int i; 
-    boolean drawLine = true; // alternate between dashes and gaps 
+  if (distance > 0)
+  {
+    int i;
+    boolean drawLine = true; // alternate between dashes and gaps
 
-    /* 
-     Figure out x and y distances for each of the spacing values 
-     I decided to trade memory for time; I'd rather allocate 
-     a few dozen bytes than have to do a calculation every time 
-     I draw. 
+    /*
+     Figure out x and y distances for each of the spacing values
+     I decided to trade memory for time; I'd rather allocate
+     a few dozen bytes than have to do a calculation every time
+     I draw.
      */
 
-    for (i = 0; i < spacing.length; i++) 
-    { 
-      xSpacing[i] = lerp(0, (x1 - x0), spacing[i] / distance); 
+    for (i = 0; i < spacing.length; i++)
+    {
+      xSpacing[i] = lerp(0, (x1 - x0), spacing[i] / distance);
       ySpacing[i] = lerp(0, (y1 - y0), spacing[i] / distance);
-    } 
+    }
 
-    i = 0; 
-    while (drawn < distance) 
-    { 
-      if (drawLine) 
-      { 
+    i = 0;
+    while (drawn < distance)
+    {
+      if (drawLine)
+      {
         line(x0, y0, x0 + xSpacing[i], y0 + ySpacing[i]);
-      } 
-      x0 += xSpacing[i]; 
-      y0 += ySpacing[i]; 
+      }
+      x0 += xSpacing[i];
+      y0 += ySpacing[i];
       /* Add distance "drawn" by this line or gap */
-      drawn = drawn + mag(xSpacing[i], ySpacing[i]); 
-      i = (i + 1) % spacing.length;  // cycle through array 
+      drawn = drawn + mag(xSpacing[i], ySpacing[i]);
+      i = (i + 1) % spacing.length;  // cycle through array
       drawLine = !drawLine;  // switch between dash and gap
     }
   }
