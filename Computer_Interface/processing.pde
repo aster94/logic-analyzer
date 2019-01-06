@@ -12,7 +12,7 @@ String LA_port = "COM10";          //windows
 
 final int baudrate = 115200; //check if it is the same in arduino
 
-//change it to true if you are using a STM32 instead of arduino
+//change it to true if you are using a STM32 instead of arduino UNO, MEGA or ESP8266
 final boolean STM32 = false;
 
 /*------------------END SETUP-----------------*/
