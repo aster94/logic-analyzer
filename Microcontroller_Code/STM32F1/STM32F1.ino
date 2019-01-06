@@ -1,11 +1,18 @@
 /*
-   Author : Vincenzo G
-   https://www.hackster.io/vincenzo-g/diy-logic-analyzer-f61ee5
-   
-*/
+ * STM32F1.ino
+ *
+ * Author : Vincenzo
+ * this works using the unofficial STM32 core, more info: https://github.com/rogerclarkmelbourne/Arduino_STM32
+ * Led: PB1
+ */ 
 
-#define samples 300
+
+#define baudrate 115200 // check if it is the same in processing
+#define samples 200		// the number of samples you want to take
 #define boardLed PB1
+
+
+
 uint8_t initial, state, old_state;
 uint8_t pinChanged[samples];
 uint32_t timer[samples];
@@ -16,7 +23,7 @@ uint16_t event = 0;
 
 void setup() {
 
-  Serial.begin(115200);
+  Serial.begin(baudrate);
 
   pinMode (boardLed, OUTPUT);
   digitalWrite(boardLed, LOW);

@@ -1,7 +1,16 @@
+/*
+ * ESP8266.ino
+ *
+ * Author : yoursunny
+ * Led: LED_BUILTIN
+ */ 
+
 #include <c_types.h>
 
+#define baudrate 115200 // check if it is the same in processing
 // number of samples to collect
 static const int N_SAMPLES = 300;
+
 
 // what pins to use, between 0 and 15
 static const int PIN0 = 4;
@@ -18,7 +27,7 @@ static_assert(PIN3 >= 0 && PIN3 < 16, "");
 static constexpr uint32_t MASK = (1 << PIN0) | (1 << PIN1) | (1 << PIN2) | (1 << PIN3);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(baudrate);
 
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);

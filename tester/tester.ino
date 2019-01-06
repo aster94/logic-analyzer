@@ -1,3 +1,10 @@
+/*
+ * tester.ino
+ *
+ * Author : Vincenzo
+ * Test your logic analyzer with another arduino
+ */
+
 #define led A5
 #define led2 13
 
