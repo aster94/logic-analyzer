@@ -1,5 +1,6 @@
 /*
  * MEGA.ino
+ * IMPORTANT: Please to use this board use this fork https://github.com/sancho11/logic-analyzer
  *
  * Created: 11/12/2016 19.35.51
  * Author : Vincenzo / sancho
