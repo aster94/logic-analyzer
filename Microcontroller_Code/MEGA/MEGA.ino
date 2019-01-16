@@ -1,14 +1,14 @@
 /*
- * LA.cpp
+ * 
  *
  * Created: 11/12/2016 19.35.51
  * Author : Vincenzo
  */ 
 
 #define baudrate 115200 //check if it is the same in processing
-#define samples 400
+#define samples 500
 #define timezerooffset 125 //microsegundos
-#define PULLUP true   //Si queremos entradas con PULLUP lo dejamos activado(true), si queremos dejarlas al "aire" (false), en caso de desactivarlo deberemos aterrizar todos los pines que no utilizemos.
+#define PULLUP true//Si queremos entradas con PULLUP lo dejamos activado(true), si queremos dejarlas al "aire" (false), en caso de desactivarlo deberemos aterrizar todos los pines que no utilizemos.
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -111,16 +111,15 @@ void sendData() {
   //initial data
   Serial.println("S");
   Serial.print(initial1); Serial.print(','); Serial.print(initial2); Serial.print(','); Serial.print(initial3); Serial.print(":");
-  Serial.println(samples+3);
+  Serial.println(samples+2);
   timefix = -timer[0]+timezerooffset;
   for (int i = 0; i < samples; i++) {
     timer[i]=timer[i]+timefix;
   }
   Serial.print(B11111111);Serial.print(','); Serial.print(B11111111); Serial.print(','); Serial.print(B11111111); Serial.print(":");//Este segmento de codigo introduce un cambio en todos los 
   Serial.println(0);                                                                                                                //canales, lo que soluciona un error en el codigo en processing
-  Serial.print(B11111111);Serial.print(','); Serial.print(B11111111); Serial.print(','); Serial.print(B11111111); Serial.print(":");//al final se hace un cambio en todos los canales, lo que soluciona
-  Serial.println(1);                                                                                                                //otro pequeño fallo visual.
-  //data
+                                                                                                                                    //al final se hace un cambio en todos los canales, lo que soluciona                                                                                                                //otro pequeño fallo visual.
+                                                                                                                                    //data
   for (int i = 0; i < samples; i++) {
     Serial.print(pinChanged1[i]);Serial.print(','); Serial.print(pinChanged2[i]); Serial.print(','); Serial.print(pinChanged3[i]); Serial.print(":");
     Serial.println(timer[i]);

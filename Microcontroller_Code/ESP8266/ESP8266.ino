@@ -9,6 +9,7 @@
 
 #define baudrate 115200 // check if it is the same in processing
 // number of samples to collect
+#define timezerooffset 125
 static const int N_SAMPLES = 300;
 
 
@@ -40,6 +41,7 @@ void setup() {
 
 unsigned long times[N_SAMPLES]; // when did change happen
 uint32_t values[N_SAMPLES];     // GPI value at time
+uint32_t timefix;
 
 extern void ICACHE_RAM_ATTR collect() {
   times[0] = micros();
@@ -73,15 +75,20 @@ int compactValue(uint32_t value) {
 
 void report() {
   Serial.println("S");
-  Serial.print(compactValue(values[0]));
-  Serial.print(":");
-  Serial.println(N_SAMPLES - 1);
-
-  for (int i = 1; i < N_SAMPLES; ++i) {
-    Serial.print(compactValue(values[i] ^ values[i - 1]));
-    Serial.print(":");
-    Serial.println(times[i] - times[0]);
+  Serial.print(compactValue(values[0])); Serial.print(','); Serial.print(B00000000); Serial.print(','); Serial.print(B00000000); Serial.print(":");
+  Serial.println(N_SAMPLES +1);
+  timefix = -times[0]+timezerooffset;
+  for (int i = 0; i < N_SAMPLES; i++) {
+    times[i]=times[i]+timefix;
   }
+  Serial.print(B11111111);Serial.print(','); Serial.print(B11111111); Serial.print(','); Serial.print(B11111111); Serial.print(":");//Este segmento de codigo introduce un cambio en todos los 
+  Serial.println(0);
+  for (int i = 1; i < N_SAMPLES; ++i) {
+    Serial.print(compactValue(values[i] ^ values[i - 1])); Serial.print(','); Serial.print(B00000000); Serial.print(','); Serial.print(B00000000); Serial.print(":");
+    Serial.println(times[i]);
+  }
+  Serial.print(B11111111);Serial.print(','); Serial.print(B11111111); Serial.print(','); Serial.print(B11111111); Serial.print(":");
+  Serial.println((times[N_SAMPLES-1]+400));
 }
 
 void loop() {
