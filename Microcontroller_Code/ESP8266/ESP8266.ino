@@ -2,7 +2,6 @@
  * ESP8266.ino
  *
  * Author : yoursunny
- * Led: LED_BUILTIN
  */ 
 
 #include <c_types.h>
@@ -31,7 +30,7 @@ void setup() {
   Serial.begin(baudrate);
 
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(LED_BUILTIN, LOW);
 
   pinMode(PIN0, INPUT_PULLUP);
   pinMode(PIN1, INPUT_PULLUP);

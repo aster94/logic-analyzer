@@ -5,23 +5,23 @@
  * Test your logic analyzer with another arduino
  */
 
-#define led A5
-#define led2 13
+#define pin1 A5
+#define pin2 13
 
 void setup() {
-  pinMode(led, OUTPUT);
-  pinMode(led2, OUTPUT);
+  pinMode(pin1, OUTPUT);
+  pinMode(pin2, OUTPUT);
 }
 
 
 void loop() {
   
-  digitalWrite(led, HIGH);
+  digitalWrite(pin1, HIGH);
   delayMicroseconds(random(200));
-  digitalWrite(led2, HIGH);
+  digitalWrite(pin2, HIGH);
   delayMicroseconds(random(200));
-  digitalWrite(led2, LOW);
+  digitalWrite(pin2, LOW);
   delayMicroseconds(random(200));
-  digitalWrite(led, LOW);
+  digitalWrite(pin1, LOW);
   delayMicroseconds(random(200));
 }

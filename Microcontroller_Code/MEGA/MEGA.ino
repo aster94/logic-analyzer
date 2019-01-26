@@ -1,6 +1,6 @@
 /*
  * Created: 11/12/2016 19.35.51
- * Author : Vincenzo
+ * Author : sancho / Vincenzo
  */ 
 
 #define baudrate 115200 //check if it is the same in processing
@@ -24,20 +24,21 @@ uint16_t event = 0;
 uint8_t cambio=0;
 void init_board() {
   
-//  PORTC = (0 << 0); DDRC |= (1 << 0); // led A0
   DDRB = 0x00;     
   DDRC = 0x00;     
   DDRL = 0x00;
-  if (PULLUP){
-  PORTA = B11111111;    // pull-up
-  PORTC = B11111111;    // Activamos el pull-up para que de no conectarse nada a puerto lea un uno siempre
-  PORTL = B11111111;
+  if (PULLUP){	// Activamos el pull-up para que de no conectarse nada a puerto lea un uno siempre
+	  for (uint8_t p = 22; p <= 49; p++){
+		  pinMode(p, INPUT_PULLUP);
+	  }
   }
   else{
-  PORTA = B00000000;    
-  PORTC = B00000000;    
-  PORTL = B00000000;
-    }
+	  for (uint8_t p = 22; p <= 49; p++){
+		  pinMode(p, INPUT);
+	  }
+  }
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void init_timer() {
@@ -86,7 +87,7 @@ void start() {
   reset_timer1();
   event = 0;
 
-  //PORTC = (1 << 0);
+  digitalWrite(LED_BUILTIN, HIGH);
   initial1 = PINA;
   initial2 = PINL;
   initial3 = PINC;
@@ -100,12 +101,11 @@ void start() {
     //Serial.print(pinChanged1[i]); Serial.print(','); Serial.print(pinChanged2[i]); Serial.print(','); Serial.println(pinChanged3[i]);
     
     }
-
 }
 
 
 void sendData() {
-  //PORTC = (0 << 0);   //turn off led
+  digitalWrite(LED_BUILTIN, LOW);
   //initial data
   Serial.println("S");
   Serial.print(initial1); Serial.print(','); Serial.print(initial2); Serial.print(','); Serial.print(initial3); Serial.print(":");

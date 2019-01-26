@@ -3,15 +3,11 @@
  *
  * Author : Vincenzo
  * this works using the unofficial STM32 core, more info: https://github.com/rogerclarkmelbourne/Arduino_STM32
- * Led: PB1
  */ 
 
 
 #define baudrate 115200 // check if it is the same in processing
 #define samples 200		// the number of samples you want to take
-#define boardLed PA1
-
-
 
 uint16_t initial, state, old_state;
 uint16_t pinChanged[samples];
@@ -26,8 +22,8 @@ void setup() {
 
   Serial.begin(baudrate);
 
-  pinMode (boardLed, OUTPUT);
-  digitalWrite(boardLed, LOW);
+  pinMode (LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
   pinMode(PB0, INPUT_PULLUP);
   pinMode(PB1, INPUT_PULLUP);
   pinMode(PB2, INPUT_PULLUP);
@@ -54,7 +50,7 @@ void startLA() {
   //delay(1000);
 
   event = 0;
-  digitalWrite(boardLed, HIGH);
+  digitalWrite(LED_BUILTIN, HIGH);
   
   reset_timer();
   initial = GPIOB->regs->IDR;
@@ -86,7 +82,7 @@ void loop() {
 }
 
 void sendData() {
-  digitalWrite(boardLed, LOW);
+  digitalWrite(LED_BUILTIN, LOW);
 
   //initial data
   initial1=initial;
