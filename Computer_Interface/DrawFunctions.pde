@@ -145,6 +145,7 @@ void DrawChannelSignals()
                     }
 
                     // finally we draw the lines
+                    stroke(green);
                     line(xPos[n] + xShift, yPos, xTime[i] + xShift, yPos);   // straight line
                     line(xTime[i] + xShift, yPos, xTime[i] + xShift, yDiff); // vertical line
 
@@ -170,8 +171,7 @@ void DrawChannelSignals()
             textSize(10);
             textCovered = !textCovered;
             dashline(xTime[i] + xShift, firstchange, xTime[i] + xShift, yBottom, spacing);
-            text(round(usTime[i]), xTime[i] + xShift + 2, (textCovered == true) ? yBottom : yBottom + 10); //write on different height
-            stroke(green);
+            text(round(usTime[i]), xTime[i] + xShift + 2, (textCovered == true) ? yBottom : yBottom - 10); //write on different height
         }
     }
 }

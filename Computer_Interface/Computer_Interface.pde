@@ -4,11 +4,11 @@
 //uncomment the line where your board is connected
 //String LA_port = "/dev/ttyACM0";      //linux DFU
 //String LA_port = "/dev/ttyUSB0";      //linux Serial
-String LA_port = "COM3"; //windows
+//String LA_port = "COM11"; //windows
 
 //Uncomment the board that you are using
 //String board = "MEGA";
-String board = "UNO";
+//String board = "UNO";
 //String board = "STM32F1";
 //String board = "ESP8266";
 //String board = "CUSTOM"
@@ -149,7 +149,7 @@ class Box
     int height;
     void clear()
     {
-        stroke(white); // no borders
+        stroke(white);
         fill(black);
         rect(from_left, from_top, width, height);
     }
@@ -171,6 +171,7 @@ class Button
     String text;
     void draw()
     {
+        stroke(white);
         fill(grey);
         rect(from_left, from_top, width, height, corners);
         fill(white);
@@ -247,7 +248,7 @@ void setup()
     board_port.bufferUntil('\n');
 
     //todo
-    yBottom = box_graph.from_top;
+    yBottom = box_scroll_bar.from_top;
     int button_y_position = y_screen_size - 30;
     xShift = (width - scroll_bar.width) / 2;
 
