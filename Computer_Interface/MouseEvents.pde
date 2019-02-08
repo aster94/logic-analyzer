@@ -12,13 +12,25 @@ boolean mouse_over_button(Button b)
 
 boolean mouse_over_channel(byte c)
 {
-    if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * c && mouseY < yEdge + 36 * c + 30 && PinAssignment[c] != 0)
-    {
-        return true;
+    if (c<16){
+      if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * c && mouseY < yEdge + 36 * c + 30 && PinAssignment[c] != 0)
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
     }
-    else
-    {
-        return false;
+    else{
+      if (mouseX > xEdge && mouseX < width && mouseY > yBottom - 36 && mouseY < yBottom)
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
     }
 }
 
@@ -139,7 +151,7 @@ void keyPressed()
             scroll_bar.from_left -= 1;
             if (scroll_bar.from_left < xEdge)
             {
-                scroll_bar.from_left = int(xEdge);
+                scroll_bar.from_left = xEdge;
             }
             if (scroll_bar.from_left > width - scroll_bar.width)
             {
@@ -152,7 +164,7 @@ void keyPressed()
             scroll_bar.from_left += 1;
             if (scroll_bar.from_left < xEdge)
             {
-                scroll_bar.from_left = int(xEdge);
+                scroll_bar.from_left = xEdge;
             }
             if (scroll_bar.from_left > width - scroll_bar.width)
             {
@@ -165,18 +177,19 @@ void keyPressed()
 
 // this function is called after a mouse button has been pressed and then released
 void mouseClicked()
-{
-    for (byte channel = 0; channel < 16; channel++)
+{   
+    for (byte channel = 0; channel <= 16; channel++)
     {
         if (mouse_over_channel(channel))
         {
             getChannelCursorCurrentEvent(channel);
             IsAnyChannelMarked = true;
             movepos();
-            // exit from the for loop
-            break;
+            dataComplete = true;
+            return;
         }
     }
+
     /*
     if (mouseX > xEdge && mouseX < width && mouseY > yEdge && mouseY < yEdge + 30 && PinAssignment[0] != 0)
     {
@@ -288,7 +301,7 @@ void mouseClicked()
         println("new data coming");
         board_port.clear();
         xShift = (width - scroll_bar.width) / 2;
-        scroll_bar.from_left = int(xEdge);
+        scroll_bar.from_left = xEdge;
     }
     else if (mouse_over_button(button_save))
     {
@@ -362,8 +375,8 @@ void mouseClicked()
     }
     else
     {
-        IsAnyChannelMarked = false;
-        dataComplete = true;
+      IsAnyChannelMarked = false;
+      dataComplete = true;
     }
 }
 
@@ -386,22 +399,22 @@ void mouseReleased()
 void mouseWheel(MouseEvent event)
 {
     // get the mouse movement and invert it
-    float wheel = map(event.getCount(), -1, 1, 1, -1);
-
+    float wheel = map(event.getCount(), -1, 1, 1, -1); 
     // change the step of the mouse wheel depending on the reducer and time_format
     if (time_format == "ms")
     {
         scroll_bar.from_left -= wheel * 50 * reducer;
     }
-    else if (time_format == "μs")
+    //else if (time_format == "μs")
+    else
     {
-        scroll_bar.from_left -= wheel * 50 * reducer * 0.1;
+        scroll_bar.from_left -= wheel * 50 * reducer * 0.001;
     }
 
     //move the graph
     if (scroll_bar.from_left < xEdge)
     {
-        scroll_bar.from_left = int(xEdge);
+        scroll_bar.from_left = xEdge;
     }
     if (scroll_bar.from_left > width - scroll_bar.width)
     {
@@ -450,7 +463,7 @@ void mouseMoved()
         cursor(ARROW);
     }
 
-    for (byte channel = 0; channel < 16; channel++)
+    for (byte channel = 0; channel <= 16; channel++)
     {
         if (mouse_over_channel(channel))
         {
