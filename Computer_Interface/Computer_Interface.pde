@@ -4,10 +4,10 @@
 //uncomment the line where your board is connected
 //String LA_port = "/dev/ttyACM0";      //linux DFU
 //String LA_port = "/dev/ttyUSB0";      //linux Serial
-//String LA_port = "COM11"; //windows
+String LA_port = "COM5"; //windows
 
 //Uncomment the board that you are using
-//String board = "MEGA";
+String board = "MEGA";
 //String board = "UNO";
 //String board = "STM32F1";
 //String board = "ESP8266";
@@ -74,7 +74,7 @@ String image_format = ".jpg"; // supported jpt, tif
  			35        -------> OFF           -------> DigitalPIN 32 -------> OFF   -------> OFF  
  			36        -------> OFF           -------> DigitalPIN 31 -------> OFF   -------> OFF  
  			37        -------> OFF           -------> DigitalPIN 30 -------> OFF   -------> OFF  
- 		  Any other   -----> OFF           -------> OFF           -------> OFF   -------> OFF
+ 		  Any other   -------> OFF           -------> OFF           -------> OFF   -------> OFF
 */
 
 // import needed modules
@@ -155,6 +155,9 @@ class Box
     }
 }
 
+
+
+
 //boolean box_left_drawn = false;
 Box box_pin_names = new Box();  // box for the pin names and number
 Box box_scroll_bar = new Box(); // a narrow box for the scroll bar
@@ -163,9 +166,9 @@ Box box_graph = new Box();      // box for the core of this program
 
 class Button
 {
-    int from_left;
+    float from_left;
     int from_top;
-    int width;
+    float width;
     int height;
     int corners = 5;
     String text;
@@ -178,6 +181,8 @@ class Button
         text(text, from_left + 3, from_top + 14); // for center the text in the button
     }
 }
+
+
 
 Button button_start = new Button();
 Button button_time_draw = new Button();
@@ -285,7 +290,7 @@ void setup()
 
     scroll_bar.width = 20;
     scroll_bar.height = 15;
-    scroll_bar.from_left = int(xEdge);
+    scroll_bar.from_left = xEdge;
     scroll_bar.from_top = box_bottom.from_top - scroll_bar.height;
 
     //Here you chose the pins that yuo want to show in the Logic Analizer.   Put 0 to OFF the channel.
@@ -514,7 +519,7 @@ void draw()
         pushMatrix(); // move the coordinate reference
         translate(xEdge, 0);
         drawCursorChannel(IsAnyChannelMarked);
-        updatepos(); // Se encarga de decir que segmento de tiempos se va a escribir
+        updatepos(); // Update the positions  that will be draw
         DrawChannelSignals();
         popMatrix();
 
@@ -522,13 +527,13 @@ void draw()
 
         draw_boxes();
     }
-    ScrollingBarPressed();
+  ScrollingBarPressed();
 }
 
 void getChannelCursorCurrentEvent(int index)
 {
     float compare1;
-    CurrentEventFloat = -(xShift * 100000 - mouseX * 100000 + xEdge * 100000);
+    CurrentEventFloat = -(xShift  - mouseX  + xEdge );
     ChannelCursor1CurrentEvent0[1] = index;
     if (index != 16)
     {
@@ -537,13 +542,13 @@ void getChannelCursorCurrentEvent(int index)
         index2 = s.charAt(0) - '1';
         ChannelCursor1CurrentEvent0[0] = 0; // Keep records of the event we are in.
         //println (abs(xTime[46]+xShift));
-        if (CurrentEventFloat < 0 || CurrentEventFloat > xTime[samples - 1] * 100000)
+        if (CurrentEventFloat < 0 || CurrentEventFloat > xTime[samples - 1] )
         {
             if (CurrentEventFloat <= 0)
             {
                 ChannelCursor1CurrentEvent0[0] = 0;
             }
-            if (CurrentEventFloat >= xTime[samples - 1] * 100000)
+            if (CurrentEventFloat >= xTime[samples - 1] )
             {
                 ChannelCursor1CurrentEvent0[0] = samples - 1;
             }
@@ -552,7 +557,7 @@ void getChannelCursorCurrentEvent(int index)
         {
             for (int i = 1; i < samples - 1; i++)
             {
-                compare1 = ((xTime[i] * 100000) + (xTime[i + 1] * 100000) - (2 * CurrentEventFloat));
+                compare1 = ((xTime[i] ) + (xTime[i + 1] ) - (2 * CurrentEventFloat));
                 if (compare1 < 0)
                 {
                     if (state[i][index1][index2])
@@ -591,7 +596,7 @@ void updatepos()
 void movepos()
 {
     xShift = xTime[ChannelCursor1CurrentEvent0[0]];
-    scroll_bar.from_left = int(map(xShift, 0, xEnd, xEdge, width - scroll_bar.width));
+    scroll_bar.from_left = map(xShift, 0, xEnd, xEdge, width - scroll_bar.width);
     xShift = -xShift - (width - scroll_bar.width) / 2;
     dataComplete = true;
 }
@@ -648,7 +653,7 @@ void serialEvent(Serial board_port)
     }
 }
 
-void scaletime() // Poner una r indicara que la funcion solo va a rehacer los tiempos.
+void scaletime() 
 {
     if (time_format == "ms")
     {
