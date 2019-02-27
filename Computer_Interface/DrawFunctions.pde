@@ -68,14 +68,14 @@ void draw_boxes()
         }
         y += 36;
     }
-  text(" ALL ", x, 610);
-  text("EVENTS", x, 625);
+    text(" ALL ", x, 610);
+    text("EVENTS", x, 625);
 }
 
 void drawCursorChannel(boolean CursorEnable)
 {
     if (CursorEnable)
-    {   
+    {
         fill(50);
         stroke(75);
         if (ChannelCursor1CurrentEvent0[1] == 16) //   This variable is used to define the channel on which we move or have marked, in this part we draw the rectangle that emphasizes a channel.
@@ -149,8 +149,8 @@ void DrawChannelSignals()
                     // finally we draw the lines
                     line(xPos[n] + xShift, yPos, xTime[i] + xShift, yPos);   // straight line
                     line(xTime[i] + xShift, yPos, xTime[i] + xShift, yDiff); // vertical line
-                    xPos[n] = xTime[i]; // save last position of the line for the pin
-                    yPos = ySave;       // load the initial value of the y
+                    xPos[n] = xTime[i];                                      // save last position of the line for the pin
+                    yPos = ySave;                                            // load the initial value of the y
                 }
             }
             yPos += 36; // go to the next pin
@@ -191,7 +191,7 @@ void ScrollingBarPressed()
     }
 }
 
-float[] spacing = {5, 8}; //used for the dashline function, pixels
+float[] spacing = {5, 8};      //used for the dashline function, pixels
 float[] spacinggrid = {1, 50}; //used for the background reference lines
 void dashline(float x0, float y0, float x1, float y1, float[] spacing)
 {

@@ -12,25 +12,27 @@ boolean mouse_over_button(Button b)
 
 boolean mouse_over_channel(byte c)
 {
-    if (c<16){
-      if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * c && mouseY < yEdge + 36 * c + 30 && PinAssignment[c] != 0)
-      {
-          return true;
-      }
-      else
-      {
-          return false;
-      }
+    if (c < 16)
+    {
+        if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * c && mouseY < yEdge + 36 * c + 30 && PinAssignment[c] != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    else{
-      if (mouseX > xEdge && mouseX < width && mouseY > yBottom - 36 && mouseY < yBottom)
-      {
-          return true;
-      }
-      else
-      {
-          return false;
-      }
+    else
+    {
+        if (mouseX > xEdge && mouseX < width && mouseY > yBottom - 36 && mouseY < yBottom)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
@@ -177,7 +179,7 @@ void keyPressed()
 
 // this function is called after a mouse button has been pressed and then released
 void mouseClicked()
-{   
+{
     for (byte channel = 0; channel <= 16; channel++)
     {
         if (mouse_over_channel(channel))
@@ -189,105 +191,6 @@ void mouseClicked()
             return;
         }
     }
-
-    /*
-    if (mouseX > xEdge && mouseX < width && mouseY > yEdge && mouseY < yEdge + 30 && PinAssignment[0] != 0)
-    {
-        getChannelCursorCurrentEvent(0);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 && mouseY < yEdge + 36 + 30 && PinAssignment[1] != 0)
-    {
-        getChannelCursorCurrentEvent(1);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 2 && mouseY < yEdge + 36 * 2 + 30 && PinAssignment[2] != 0)
-    {
-        getChannelCursorCurrentEvent(2);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 3 && mouseY < yEdge + 36 * 3 + 30 && PinAssignment[3] != 0)
-    {
-        getChannelCursorCurrentEvent(3);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 4 && mouseY < yEdge + 36 * 4 + 30 && PinAssignment[4] != 0)
-    {
-        getChannelCursorCurrentEvent(4);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 5 && mouseY < yEdge + 36 * 5 + 30 && PinAssignment[5] != 0)
-    {
-        getChannelCursorCurrentEvent(5);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 6 && mouseY < yEdge + 36 * 6 + 30 && PinAssignment[6] != 0)
-    {
-        getChannelCursorCurrentEvent(6);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 7 && mouseY < yEdge + 36 * 7 + 30 && PinAssignment[7] != 0)
-    {
-        getChannelCursorCurrentEvent(7);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 8 && mouseY < yEdge + 36 * 8 + 30 && PinAssignment[8] != 0)
-    {
-        getChannelCursorCurrentEvent(8);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 9 && mouseY < yEdge + 36 * 9 + 30 && PinAssignment[9] != 0)
-    {
-        getChannelCursorCurrentEvent(9);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 10 && mouseY < yEdge + 36 * 10 + 30 && PinAssignment[10] != 0)
-    {
-        getChannelCursorCurrentEvent(10);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 11 && mouseY < yEdge + 36 * 11 + 30 && PinAssignment[11] != 0)
-    {
-        getChannelCursorCurrentEvent(11);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 12 && mouseY < yEdge + 36 * 12 + 30 && PinAssignment[12] != 0)
-    {
-        getChannelCursorCurrentEvent(12);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 13 && mouseY < yEdge + 36 * 13 + 30 && PinAssignment[13] != 0)
-    {
-        getChannelCursorCurrentEvent(13);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 14 && mouseY < yEdge + 36 * 14 + 30 && PinAssignment[14] != 0)
-    {
-        getChannelCursorCurrentEvent(14);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 15 && mouseY < yEdge + 36 * 15 + 30 && PinAssignment[15] != 0)
-    {
-        getChannelCursorCurrentEvent(15);
-        IsAnyChannelMarked = true;
-        movepos();
-    }
-    */
 
     if (mouse_over_button(button_time_draw))
     {
@@ -375,8 +278,8 @@ void mouseClicked()
     }
     else
     {
-      IsAnyChannelMarked = false;
-      dataComplete = true;
+        IsAnyChannelMarked = false;
+        dataComplete = true;
     }
 }
 
@@ -399,7 +302,7 @@ void mouseReleased()
 void mouseWheel(MouseEvent event)
 {
     // get the mouse movement and invert it
-    float wheel = map(event.getCount(), -1, 1, 1, -1); 
+    float wheel = map(event.getCount(), -1, 1, 1, -1);
     // change the step of the mouse wheel depending on the reducer and time_format
     if (time_format == "ms")
     {
@@ -468,85 +371,13 @@ void mouseMoved()
         if (mouse_over_channel(channel))
         {
             cursor(HAND);
-            return;
-            // exit from the for loop
+            return; // exit from the for loop
         }
         else
         {
             cursor(ARROW);
         }
     }
-
-    /*
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge && mouseY < yEdge + 30 && PinAssignment[0] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 && mouseY < yEdge + 36 + 30 && PinAssignment[1] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 2 && mouseY < yEdge + 36 * 2 + 30 && PinAssignment[2] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 3 && mouseY < yEdge + 36 * 3 + 30 && PinAssignment[3] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 4 && mouseY < yEdge + 36 * 4 + 30 && PinAssignment[4] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 5 && mouseY < yEdge + 36 * 5 + 30 && PinAssignment[5] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 6 && mouseY < yEdge + 36 * 6 + 30 && PinAssignment[6] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 7 && mouseY < yEdge + 36 * 7 + 30 && PinAssignment[7] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 8 && mouseY < yEdge + 36 * 8 + 30 && PinAssignment[8] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 9 && mouseY < yEdge + 36 * 9 + 30 && PinAssignment[9] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 10 && mouseY < yEdge + 36 * 10 + 30 && PinAssignment[10] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 11 && mouseY < yEdge + 36 * 11 + 30 && PinAssignment[11] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 12 && mouseY < yEdge + 36 * 12 + 30 && PinAssignment[12] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 13 && mouseY < yEdge + 36 * 13 + 30 && PinAssignment[13] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 14 && mouseY < yEdge + 36 * 14 + 30 && PinAssignment[14] != 0)
-    {
-        cursor(HAND);
-    }
-    else if (mouseX > xEdge && mouseX < width && mouseY > yEdge + 36 * 15 && mouseY < yEdge + 36 * 15 + 30 && PinAssignment[15] != 0)
-    {
-        cursor(HAND);
-    }
-    else
-    {
-        cursor(ARROW);
-    }
-    */
 }
 
 // this function is called every time a mouse button is pressed
@@ -555,7 +386,6 @@ void mousePressed()
     if (mouse_over_button(scroll_bar))
     {
         isDraggable = true;
-
         //scroll_bar_color = color(100, 200, 255); change color of the scroll bar
     }
 }

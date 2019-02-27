@@ -1,5 +1,6 @@
 /*
- * Created: 11/12/2016 19.35.51
+ * MEGA.ino
+ * 
  * Author : sancho / Vincenzo
  */ 
 

@@ -155,9 +155,6 @@ class Box
     }
 }
 
-
-
-
 //boolean box_left_drawn = false;
 Box box_pin_names = new Box();  // box for the pin names and number
 Box box_scroll_bar = new Box(); // a narrow box for the scroll bar
@@ -181,8 +178,6 @@ class Button
         text(text, from_left + 3, from_top + 14); // for center the text in the button
     }
 }
-
-
 
 Button button_start = new Button();
 Button button_time_draw = new Button();
@@ -527,13 +522,13 @@ void draw()
 
         draw_boxes();
     }
-  ScrollingBarPressed();
+    ScrollingBarPressed();
 }
 
 void getChannelCursorCurrentEvent(int index)
 {
     float compare1;
-    CurrentEventFloat = -(xShift  - mouseX  + xEdge );
+    CurrentEventFloat = -(xShift - mouseX + xEdge);
     ChannelCursor1CurrentEvent0[1] = index;
     if (index != 16)
     {
@@ -542,13 +537,13 @@ void getChannelCursorCurrentEvent(int index)
         index2 = s.charAt(0) - '1';
         ChannelCursor1CurrentEvent0[0] = 0; // Keep records of the event we are in.
         //println (abs(xTime[46]+xShift));
-        if (CurrentEventFloat < 0 || CurrentEventFloat > xTime[samples - 1] )
+        if (CurrentEventFloat < 0 || CurrentEventFloat > xTime[samples - 1])
         {
             if (CurrentEventFloat <= 0)
             {
                 ChannelCursor1CurrentEvent0[0] = 0;
             }
-            if (CurrentEventFloat >= xTime[samples - 1] )
+            if (CurrentEventFloat >= xTime[samples - 1])
             {
                 ChannelCursor1CurrentEvent0[0] = samples - 1;
             }
@@ -557,7 +552,7 @@ void getChannelCursorCurrentEvent(int index)
         {
             for (int i = 1; i < samples - 1; i++)
             {
-                compare1 = ((xTime[i] ) + (xTime[i + 1] ) - (2 * CurrentEventFloat));
+                compare1 = ((xTime[i]) + (xTime[i + 1]) - (2 * CurrentEventFloat));
                 if (compare1 < 0)
                 {
                     if (state[i][index1][index2])
@@ -653,7 +648,7 @@ void serialEvent(Serial board_port)
     }
 }
 
-void scaletime() 
+void scaletime()
 {
     if (time_format == "ms")
     {
