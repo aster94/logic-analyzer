@@ -8,7 +8,7 @@ Serial p;
 //uncomment the line where your arduino/STM32 is connected
 //String LA_port = "/dev/ttyACM0";    //linux DFU
 //String LA_port = "/dev/ttyUSB0";  //linux Serial
-String LA_port = "COM10";          //windows
+String LA_port = "COM4";          //windows
 
 final int baudrate = 115200; //check if it is the same in arduino
 
