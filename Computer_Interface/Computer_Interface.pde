@@ -1,3 +1,4 @@
+// Computer_Interface.pde
 ////////////////////////////////////////////////
 /*--------------------SETUP-------------------*/
 
@@ -18,65 +19,6 @@ String board = "MEGA";
 String image_format = ".jpg"; // supported jpt, tif
 
 /*------------------END SETUP-----------------*/
-////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		.___                 __                        __  .__
-//		|   | ____   _______/  |________ __ __   _____/  |_|__| ____   ____   ______
-//		|   |/    \ /  ___/\   __\_  __ \  |  \_/ ___\   __\  |/  _ \ /    \ /  ___/
-//		|   |   |  \\___ \  |  |  |  | \/  |  /\  \___|  | |  (  <_> )   |  \\___ \ 
-//		|___|___|  /____  > |__|  |__|  |____/  \___  >__| |__|\____/|___|  /____  >
-//		         \/     \/                          \/                    \/     \/
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-    ENGLISH
-        Operation of the pin assignment.
-        The entries will be depleted in the order they appear in the whole PinAssignment that goes from 0 to 15 for a total of 16, the value of the integer in each position will 
-        reference the pin to be used. Then the value that must be entered in the integer will be shown to observe the desired pin.
-
-        In case you do not want to show anything on that channel, just assign 0 so that the channel will not be written.
-        The pins that do not appear in the table can not be used because they were not considered in the arduino programming, to avoid overloading the
-        arduino and obtain more satisfactory response times.
-
-        Notes:
-
-        If you are using an Arduino MEGA you shoud know that, since the arduino MEGA2560 has enough pins more than the arduino one, and also its processor can reach 2MHz and I suppose it must also have a better IPC ratio (Instructions per cycle)
-        this code read 24 pins of which we will deplete 16 in the program, among the reasons to do this are, the location of the pins which are not always where one would like,
-        and the mapping of the digital pins in the arduino microcontroller, since I wanted to take advantage of the greater number of pins doing the fewer instructions to avoid 
-        damaging the process.
-		
-		If you use an Arduino STM32 you should know, that this is much more powerful than an Arduino UNO or MEGA, so it can be used for faster readings,
-		besides in this case all pins B ("PB") are available. that you have several channels to work with.
-
-    
- 	PinAssignment 			        UNO				    MEGA				STM32		 	 ESP8266
- 			10        -------> DigitalPIN 8  -------> DigitalPIN 22 -------> PB 0  -------> DigitalPIN1  
- 			11        -------> DigitalPIN 9  -------> DigitalPIN 23	-------> PB 1  -------> DigitalPIN2  
- 			12        -------> DigitalPIN 10 -------> DigitalPIN 24 -------> PB 2  -------> DigitalPIN5  
- 			13        -------> DigitalPIN 11 -------> DigitalPIN 25 -------> PB 3  -------> DigitalPIN6  
- 			14        -------> DigitalPIN 12 -------> DigitalPIN 26 -------> PB 4  -------> OFF   
- 			15        -------> OFF           -------> DigitalPIN 27 -------> PB 5  -------> OFF   
- 			16        -------> OFF           -------> DigitalPIN 28 -------> PB 6  -------> OFF   
- 			17        -------> OFF           -------> DigitalPIN 29 -------> PB 7  -------> OFF   
- 			20        -------> OFF           -------> DigitalPIN 49 -------> PB 8  -------> OFF   
- 			21        -------> OFF           -------> DigitalPIN 48 -------> PB 9  -------> OFF   
- 			22        -------> OFF           -------> DigitalPIN 47 -------> PB 10 -------> OFF   
- 			23        -------> OFF           -------> DigitalPIN 46 -------> PB 11 -------> OFF   
- 			24        -------> OFF           -------> DigitalPIN 45 -------> PB 12 -------> OFF   
- 			25        -------> OFF           -------> DigitalPIN 44 -------> PB 13 -------> OFF   
- 			26        -------> OFF           -------> DigitalPIN 43 -------> PB 14 -------> OFF   
- 			27        -------> OFF           -------> DigitalPIN 42 -------> PB 15 -------> OFF  
- 			30        -------> OFF           -------> DigitalPIN 37 -------> OFF   -------> OFF  
- 			31        -------> OFF           -------> DigitalPIN 36 -------> OFF   -------> OFF  
- 			32        -------> OFF           -------> DigitalPIN 35 -------> OFF   -------> OFF  
- 			33        -------> OFF           -------> DigitalPIN 34 -------> OFF   -------> OFF  
- 			34        -------> OFF           -------> DigitalPIN 33 -------> OFF   -------> OFF  
- 			35        -------> OFF           -------> DigitalPIN 32 -------> OFF   -------> OFF  
- 			36        -------> OFF           -------> DigitalPIN 31 -------> OFF   -------> OFF  
- 			37        -------> OFF           -------> DigitalPIN 30 -------> OFF   -------> OFF  
- 		  Any other   -------> OFF           -------> OFF           -------> OFF   -------> OFF
-*/
-
 // import needed modules
 import processing.serial.*;
 import java.util.Arrays;
