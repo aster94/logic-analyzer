@@ -1,14 +1,13 @@
 /*
  * UNO.ino
  *
- * Created: 11/12/2016 19.35.51
  * Author : Vincenzo
  * Led on A0
  */ 
 
 #define baudrate 115200 // check if it is the same in processing
 #define samples 200		// the number of samples you want to take
-
+#define timezerooffset 125 //microsegundos
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -19,6 +18,7 @@ volatile uint16_t timer1_overflow_count;
 uint8_t initial, state, old_state;
 uint8_t pinChanged[samples];
 uint32_t timer[samples];
+uint32_t timefix;
 uint16_t event = 0;
 
 void init_board() {
@@ -78,7 +78,10 @@ void start() {
   PORTC = (1 << 0);
   initial = PINB;
   state = initial;
-
+  for (int i=0;  i < samples; i++) {
+    pinChanged[i]=0;
+    
+  }
 }
 
 
@@ -86,15 +89,22 @@ void sendData() {
   PORTC = (0 << 0);   //turn off led
 
   //initial data
-  Serial.println("S");
-  Serial.print(initial); Serial.print(":");
-  Serial.println(samples);
-
+    Serial.println("S");
+  Serial.print(initial); Serial.print(','); Serial.print(B11111111); Serial.print(','); Serial.print(B11111111); Serial.print(":");
+  Serial.println(samples+2);
+  timefix = -timer[0]+timezerooffset;
+  for (int i = 0; i < samples; i++) {
+    timer[i]=timer[i]+timefix;
+  }
+  Serial.print(B11111111);Serial.print(','); Serial.print(B11111111); Serial.print(','); Serial.print(B11111111); Serial.print(":");//Este segmento de codigo introduce un cambio en todos los 
+  Serial.println(0);                                                                                                                //canales evita fallo visual.
   //data
   for (int i = 0; i < samples; i++) {
-    Serial.print(pinChanged[i]); Serial.print(":");
+    Serial.print(pinChanged[i]);Serial.print(','); Serial.print(B00000000); Serial.print(','); Serial.print(B00000000); Serial.print(":");
     Serial.println(timer[i]);
   }
+  Serial.print(B11111111);Serial.print(','); Serial.print(B11111111); Serial.print(','); Serial.print(B11111111); Serial.print(":");
+  Serial.println((timer[samples-1]+400));
 }
 
 
