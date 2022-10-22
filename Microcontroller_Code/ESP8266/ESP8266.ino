@@ -13,10 +13,10 @@ static const int N_SAMPLES = 300;
 
 
 // what pins to use, between 0 and 15
-static const int PIN0 = 4;
-static const int PIN1 = 5;
-static const int PIN2 = 12;
-static const int PIN3 = 14;
+static const int PIN0 = 4; // D2
+static const int PIN1 = 5;  // D1
+static const int PIN2 = 12; // D6
+static const int PIN3 = 14; // D5
 // unused pins should be tied to the ground
 
 static_assert(PIN0 >= 0 && PIN0 < 16, "");
