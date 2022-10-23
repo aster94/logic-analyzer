@@ -299,7 +299,7 @@ void mouseClicked() {
   //save frame
   if (mouseY>buttonY && mouseY <buttonY+buttonH &&
     mouseX>button5X && mouseX <button5X+smallButtonW) {
-    String a = "la_capture-"+immage; //+".jpg";  //if you prefer this format, default .tif
+    String a = "la_capture-"+immage+".jpg";  //if you prefer this format, default .jpg
     save(a);
     immage++;
   }
