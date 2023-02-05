@@ -24,6 +24,10 @@ Enjoy!
 - [Arduino IDE](https://www.arduino.cc/en/main/software)
 - [Processing](https://processing.org/download/)
 
+## Donate
+
+If you liked this project and wish to donate you can sent to [PayPal](https://paypal.me/aster94)
+
 # Change Log
 
 ##### 06/01/19
